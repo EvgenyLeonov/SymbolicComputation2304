@@ -12,6 +12,9 @@
    (Node. "B")
    (Node. "C")
    (Node. "D")
+   (Node. "E")
+   (Node. "F")
+   (Node. "G")
    ]
   )
 
@@ -21,6 +24,9 @@
    (Edge. 2 "A" "C" -20 10)
    (Edge. 3 "B" "D" -20 4)
    (Edge. 3 "C" "D" -20 4)
-
+   (Edge. 3 "D" "E" -20 4)
+   (Edge. 3 "D" "F" -20 4)
+   (Edge. 3 "E" "G" -20 4)
+   (Edge. 3 "F" "G" -20 4)
    ]
   )
