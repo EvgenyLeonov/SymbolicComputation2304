@@ -40,3 +40,11 @@
     @children
     )
   )
+
+(defn get_edge_by_nodes
+  [node1_name node2_name all_edges]
+  (first (filter #(or (and (= (:node1 %) node1_name) (= (:node2 %) node2_name))
+                      (and (= (:node2 %) node1_name) (= (:node1 %) node2_name))
+                      ) all_edges)
+         )
+  )
