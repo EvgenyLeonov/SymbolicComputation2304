@@ -15,6 +15,9 @@
    (Node. "E")
    (Node. "F")
    (Node. "G")
+   (Node. "I")
+   (Node. "J")
+   (Node. "H")
    ]
   )
 
@@ -28,5 +31,12 @@
    (Edge. 3 "D" "F" -20 4)
    (Edge. 3 "E" "G" -20 4)
    (Edge. 3 "F" "G" -20 4)
+   ;(Edge. 3 "G" "I" -20 4)
+   ;(Edge. 3 "G" "J" -20 4)
+   ;(Edge. 3 "I" "H" -20 4)
+   ;(Edge. 3 "J" "H" -20 4)
    ]
   )
+
+(def start_node_name "A")
+(def target_node_name "G")
