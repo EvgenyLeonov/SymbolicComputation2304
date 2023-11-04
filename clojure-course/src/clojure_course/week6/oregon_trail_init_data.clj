@@ -1,4 +1,4 @@
-(ns clojure-course.week6.oregon-trail-init-data)
+(ns clojure-course.week6.oregon_trail_init_data)
 
 (defrecord Node [name])
 

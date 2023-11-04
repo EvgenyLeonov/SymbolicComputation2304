@@ -1,6 +1,6 @@
 (ns clojure-course.week6.oregon_trail
   (:require [clojure-course.week6.graph_common_funcs :as funcs])
-  (:require [clojure-course.week6.oregon-trail-simple-dataset :as simple-dataset])
+  (:require [clojure-course.week6.oregon_trail_init_data_short :as oregon_trail_short])
   (:require [clojure.string :as string :only [index-of]])
   )
 
@@ -76,8 +76,9 @@
                target_node_name
                all_edges)
              )
-      (println "chain_edges=" @chain_edges)
+      ;(println "chain_edges=" @chain_edges)
       (swap! edges_for_route conj @chain_edges)
+      ;(println "edges_for_route=" @edges_for_route)
       )
       @edges_for_route
     )
@@ -151,7 +152,7 @@
             ; if a route doesn't lead us to the target, let's abandon it
             :when (.contains @route target_node_name)
             ]
-      (swap! edges_for_all_routes conj (folding @route target_node_name all_edges))
+      (swap! edges_for_all_routes concat (folding @route target_node_name all_edges))
       )
     (println "edges_for_all_routes=" @edges_for_all_routes)
     ; return all routes we found
@@ -159,16 +160,15 @@
     )
   )
 
-(def all_routes (find_all_routes simple-dataset/start_node_name
-                                 simple-dataset/target_node_name
-                                 simple-dataset/all_nodes
-                                 simple-dataset/all_edges
+(def all_routes (find_all_routes oregon_trail_short/start_node_name
+                                 oregon_trail_short/target_node_name
+                                 oregon_trail_short/all_nodes
+                                 oregon_trail_short/all_edges
                                  ))
+
 (println "ALL ROUTES TO TARGET:")
-(doseq [route all_routes
-        :when (.contains @route simple-dataset/target_node_name)
-        ]
-  (println @route)
+(doseq [route all_routes]
+  (oregon_trail_short/print_report_for_route route oregon_trail_short/all_nodes true)
   )
 
 ; DEBUG

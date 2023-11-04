@@ -1,4 +1,6 @@
-(ns clojure-course.week6.graph_common_funcs)
+(ns clojure-course.week6.graph_common_funcs
+
+  )
 
 (defn get_node
   [node_name
@@ -48,3 +50,4 @@
                       ) all_edges)
          )
   )
+
