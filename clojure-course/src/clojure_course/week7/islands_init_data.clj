@@ -1,4 +1,4 @@
-(ns clojure-course.week6.islands-init-data)
+(ns clojure-course.week7.islands-init-data)
 
 (def islands_chart
   [

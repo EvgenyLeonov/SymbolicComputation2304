@@ -22,14 +22,14 @@
 
 (def all_edges
   [
-   (Edge. "A" "B" -30 7 false)
-   (Edge. "A" "C" -20 10 false)
-   (Edge. "B" "D" -20 4 false)
-   (Edge. "C" "D" -10 5 false)
-   (Edge. "D" "E" -40 5 true)
-   (Edge. "D" "F" -10 10 true)
-   (Edge. "E" "G" -20 8 true)
-   (Edge. "F" "G" -20 8 true)
+   (Edge. "A" "B" -30 10 false)
+   (Edge. "A" "C" -20 6 false)
+   (Edge. "B" "D" -20 8 false)
+   (Edge. "C" "D" -10 9 false)
+   (Edge. "D" "E" -40 7 true)
+   (Edge. "D" "F" -10 8 true)
+   (Edge. "E" "G" -20 12 true)
+   (Edge. "F" "G" -20 15 true)
    ]
   )
 
@@ -44,6 +44,8 @@
     )
   )
 
+; calculates and prints total amount of supplies and days for each route
+; a route contains several edges
 (defn evaluate_route
   [edges]
   (let [supply (atom 0)

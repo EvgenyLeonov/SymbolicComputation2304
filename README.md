@@ -65,6 +65,16 @@ Lecture 1 23-Oct-2023, Lecture 2 25-Oct-2023
 
 Lecture 1 30-Oct-2023, Lecture 2 01-Nov-2023
 
+* DFS, BFS algorithm for graphs.
+* Oregon Trail task as solution for graphs.
+* Labyrinth of Minotaur task to show how to represent a maze as a tree and solve it.
+
+### Week 7 ### 
+
+Lecture 1 06-Nov-2023, Lecture 2 08-Nov-2023
+
+
+
 
 
 

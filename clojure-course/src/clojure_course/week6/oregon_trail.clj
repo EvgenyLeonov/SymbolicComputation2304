@@ -15,7 +15,6 @@
                   ]
             :when (and (some? index_node_name) (some? index_node_name_next) (> index_node_name_next index_node_name))
             ]
-      ;(println "merge" node_name "; index1=" index_node_name "; index2="index_node_name_next)
       (reset! result
               (string_merge_routines
                 (str (subs path_as_string 0 index_node_name) (subs path_as_string index_node_name_next))
@@ -28,6 +27,7 @@
     )
   )
 
+; auxiliary function for recursive run
 (defn folding_routines [route_vector target_node_name]
   (let [path (subvec route_vector 0 (.lastIndexOf route_vector target_node_name))
         path_as_string (apply str path)
@@ -41,13 +41,13 @@
     )
   )
 
+; typically a route contains unnecessary movements back and forth, so, let's remove them
 (defn folding [folding_vector target_node_name all_edges]
   (let [edges_for_route (atom [])
         all_node_chains (folding_routines folding_vector target_node_name)
         _ (println "all_node_chains=" all_node_chains)
         ]
     (doseq [chain all_node_chains
-            ;_ (println "chain=" chain)
             :let [chain_count (count chain)
                   last_index (dec chain_count)
                   chain_edges (atom [])
@@ -61,13 +61,12 @@
           (let [node_name1 (get chain index1)
                 node_name2 (get chain index2)
                 edge (funcs/get_edge_by_nodes (str node_name1) (str node_name2) all_edges)
-                ;_ (println "edge="edge)
+
                 ]
             (swap! chain_edges conj edge)
             )
           (recur (inc index1) (inc index2))
           )
-
         )
       ; add connection between the last node in the list and target node
       (swap! chain_edges conj
@@ -76,17 +75,18 @@
                target_node_name
                all_edges)
              )
-      ;(println "chain_edges=" @chain_edges)
       (swap! edges_for_route conj @chain_edges)
-      ;(println "edges_for_route=" @edges_for_route)
       )
       @edges_for_route
     )
   )
 
+; the major function performing traverse via graph
 (defn dfs_graph
   [
    current_node
+   ; we remember the chain of nodes visited so far
+   ; this vector transferred in all children nodes
    movements_history
    target_node_name
    all_nodes
@@ -97,6 +97,7 @@
         ]
     (println current_node_name "is visited")
     (swap! movements_history conj current_node_name)
+    ; the current node knows the whole route from beginning
     (println "history for" current_node_name ":" @movements_history)
 
     (doseq [edge edges
@@ -128,38 +129,47 @@
     )
   )
 
+; the main method to find all routes from start_node_name to target_node_name
+; note: this is "pure function" -- it used input arguments only and change any external objects
 (defn find_all_routes
   [start_node_name
    target_node_name
    all_nodes
    all_edges
    ]
-  (let [all_routes (atom [])
+  (let [
+        all_routes (atom [])
+        ; here we store search results (each route created by list of "legs" = edges)
         edges_for_all_routes (atom [])
         start_node_children (funcs/get_children_for_node start_node_name all_edges all_nodes)
         ]
-    ; BFS approach
+    ; BFS approach. Let's run search for all children of the root node, and traverse their descendants
     (doseq [child_node start_node_children
             :let [child_node_name (:name child_node)]
             ]
       (println "dive from start node" start_node_name "to" child_node_name)
+      ; recursively travers all nodes
       (swap! all_routes conj
              (dfs_graph child_node (atom [start_node_name]) target_node_name all_nodes all_edges)
              )
       )
+    ; let's analyse results. they contain unnecessary pieces and algorithm passed some edges beck and forth
+    ; we eliminate these pieces => fold the sequence
     ; folding for all routes
     (doseq [route @all_routes
             ; if a route doesn't lead us to the target, let's abandon it
             :when (.contains @route target_node_name)
             ]
+      ; we use "concat" instead "conj" overwise result of "folding" function will be added as vector instead of list nodes
       (swap! edges_for_all_routes concat (folding @route target_node_name all_edges))
       )
-    (println "edges_for_all_routes=" @edges_for_all_routes)
     ; return all routes we found
     @edges_for_all_routes
     )
   )
 
+; this is the entry point for the program. All routes calculated via find_all_routes function
+; and assigned to all_routes variable
 (def all_routes (find_all_routes oregon_trail_short/start_node_name
                                  oregon_trail_short/target_node_name
                                  oregon_trail_short/all_nodes
@@ -170,14 +180,6 @@
 (doseq [route all_routes]
   (oregon_trail_short/print_report_for_route route oregon_trail_short/all_nodes true)
   )
-
-; DEBUG
-;(def vect1 ["A" "B" "D" "C" "D" "E" "G" "E" "D" "F" ])
-;(def vect1_str (apply str vect1))
-;(def vect2 ["A" "B" "D" "C" "D" "E"  ])
-;(def vect2_str (apply str vect2))
-;(println "merged string 1=" (string_merge_routines vect1_str "G"))
-;(println "merged string 2=" (string_merge_routines vect2_str "G"))
 
 
 
