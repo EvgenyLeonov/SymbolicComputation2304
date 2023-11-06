@@ -30,6 +30,10 @@ public class RabbitGenerationTask extends BukkitRunnable {
         this.currentValue++;
     }
 
+    public void setCurrentValue(int currentValue) {
+        this.currentValue = currentValue;
+    }
+
     private int currentValue;
 
 
@@ -40,7 +44,7 @@ public class RabbitGenerationTask extends BukkitRunnable {
     public RabbitGenerationTask(JavaPlugin plugin) {
         this.plugin = plugin;
         setTotalNumber(0);
-        this.currentValue = 0;
+        setCurrentValue(0);
     }
 
     private int fibonacci(int n)
@@ -63,6 +67,7 @@ public class RabbitGenerationTask extends BukkitRunnable {
                 final Location location = player.getLocation();
                 increaseCurrentValue();
                 final int fibNum = fibonacci(getCurrentValue());
+                if (fibNum > 500) setCurrentValue(0);
                 System.out.println("Creating " + fibNum + " rabbits...");
                 for (int i = 0; i < fibNum; i++) {
                     getWorld().spawnEntity(location, EntityType.RABBIT);
