@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_03_loops)
+(ns clojure-course.how_it_works.demo_004_loops)
 
 ; loop int value from 0 to 10
 (loop [x 0]

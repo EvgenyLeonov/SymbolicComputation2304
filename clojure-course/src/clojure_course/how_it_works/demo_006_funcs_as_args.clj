@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_05_funcs_as_args
+(ns clojure-course.how_it_works.demo_006_funcs_as_args
   ; we can import functions from other namespaces.
   ; At the left is a namespace from where we import.
   ; At the right two functions from this namespace

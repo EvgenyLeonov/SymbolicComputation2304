@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_04_more_about_funcs)
+(ns clojure-course.how_it_works.demo_005_more_about_funcs)
 
 ; in this namespace you can see how to define functions in different ways
 ; f1, f2, f3 do the same

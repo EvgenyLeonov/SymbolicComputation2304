@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_03_conditions)
+(ns clojure-course.how_it_works.demo_003_conditions)
 
 (def x 5)
 

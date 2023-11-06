@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_02_collections)
+(ns clojure-course.how_it_works.demo_002_collections)
 
 (def vect [1 2 3])
 (def lst '(1 2 3))

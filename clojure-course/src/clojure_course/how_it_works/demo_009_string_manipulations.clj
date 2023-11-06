@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_08_string_manipulations
+(ns clojure-course.how_it_works.demo_009_string_manipulations
   ; good practice to import only things you need
   (:require [clojure.string :as string :only [split]])
   )

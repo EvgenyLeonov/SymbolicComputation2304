@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_07_string_functions
+(ns clojure-course.how_it_works.demo_008_string_functions
   (:require [clojure.string :as string :only [index-of, last-index-of, trim]]))
 
 

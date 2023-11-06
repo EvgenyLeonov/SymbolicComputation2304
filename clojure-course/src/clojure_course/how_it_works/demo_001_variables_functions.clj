@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_01_variables_functions)
+(ns clojure-course.how_it_works.demo_001_variables_functions)
 
 ; these are variables. I can store data using them.
 ; def defines global variables, visible in the whole scope of namespace.

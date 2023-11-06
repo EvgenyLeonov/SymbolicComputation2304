@@ -1,4 +1,4 @@
-(ns clojure-course.how_it_works.demo_06_filter)
+(ns clojure-course.how_it_works.demo_007_filter)
 
 ; vector of words. Two of them contains 3 letters.
 (def words ["cat" "flower" "dog" "cactus"])
