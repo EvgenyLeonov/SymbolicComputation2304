@@ -7,7 +7,7 @@
 ; inserts node at the first position (FIFO)
 (defn queue_add
   [node_to_add]
-  (when-not (nil? node_to_add)
+  (when (some? node_to_add)
     (reset! queue (cons node_to_add @queue))
     (println "queue=" @queue)
     )
@@ -20,12 +20,13 @@
   )
 
 (defn queue_not_empty []
-  (empty? queue)
+  (not (empty? queue))
   )
 
 (defn queue_next_item
   []
   (when queue_not_empty
+    (println "inside" (get queue 0))
     (get @queue 0)
     )
   )

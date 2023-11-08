@@ -73,6 +73,12 @@ Lecture 1 30-Oct-2023, Lecture 2 01-Nov-2023
 
 Lecture 1 06-Nov-2023, Lecture 2 08-Nov-2023
 
+* Stack, Queue, Linked lists.
+* BFS with Queue without recursion.
+
+### Week 8 ### 
+
+Lecture 1 13-Nov-2023, Lecture 2 15-Nov-2023
 
 
 
