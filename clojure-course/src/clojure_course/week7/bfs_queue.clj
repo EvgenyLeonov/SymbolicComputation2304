@@ -8,46 +8,44 @@
 (defn queue_add
   [node_to_add]
   (when (some? node_to_add)
-    (reset! queue (cons node_to_add @queue))
-    (println "queue=" @queue)
+    (if (empty? @queue)
+      (reset! queue (conj @queue node_to_add))
+      (reset! queue (cons node_to_add @queue))
+      )
     )
   )
 
 ; removes the last item (FIFO)
-(defn queue_remove
+(defn queue_remove_item
   []
-  (swap! queue drop-last)
+  (reset! queue (into [] (drop-last @queue)))
   )
 
 (defn queue_not_empty []
-  (not (empty? queue))
+  (not (empty? @queue))
   )
 
 (defn queue_next_item
   []
   (when queue_not_empty
-    (println "inside" (get queue 0))
-    (get @queue 0)
+    (last @queue)
     )
   )
-
-; DEBUG
-;(queue_add "1")
-;(queue_add "2")
-;(println "queue=" @queue)
-;(queue_remove)
-;(println "queue=" @queue)
 
 (defn bfs_visit_all_nodes
   [root_node]
   (queue_add root_node)
-  (while queue_not_empty
+  (while (queue_not_empty)
     (let [current_node (queue_next_item)
+          left_node (:left_node current_node)
+          right_node (:right_node current_node)
           ]
       (println (:name current_node) "is visited")
-      (queue_add (:left_node current_node))
-      (queue_add (:right_node current_node))
-      (queue_remove)
+      (println "left:" (:name left_node))
+      (println "right:" (:name right_node))
+      (queue_add left_node)
+      (queue_add right_node)
+      (queue_remove_item)
       )
     )
 
