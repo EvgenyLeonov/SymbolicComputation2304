@@ -33,6 +33,7 @@
 
     )
   )
+(run correct_string)
 (run incorrect_string)
 
 
