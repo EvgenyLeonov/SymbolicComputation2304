@@ -78,7 +78,41 @@
     )
   )
 
-(println "old" nodes)
+
+
+(defn print_binary_tree_routines
+  [node]
+  (when (some? node)
+
+    (let [left_node (get (:children node) 0)
+          right_node (get (:children node) 1)
+          ]
+      ;(print (:name node))
+      (when (some? left_node)
+        (print (:name left_node))
+        )
+      (when (some? right_node)
+        (print (:name right_node))
+
+        )
+
+      (print_binary_tree_routines left_node)
+      (print_binary_tree_routines right_node)
+
+      )
+
+    )
+  )
+
+(defn print_binary_tree
+  [root_node]
+  (print (:name root_node))
+  (print_binary_tree_routines root_node)
+  )
+
+(print "old: " )
+(print_binary_tree nodes)
+(println "")
 (let [
       tempNode (atom nil)
       state (atom true)
@@ -103,9 +137,9 @@
     (println "step" @counter)
     )
 
-  (println "updated:" @tempNode)
+  (print "updated:" )
+  (print_binary_tree @tempNode)
   )
-
 
 
 
