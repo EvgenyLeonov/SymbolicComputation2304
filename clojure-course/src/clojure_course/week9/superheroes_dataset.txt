@@ -1,0 +1,25 @@
+Juggernaut is man
+Beast is man
+Professor X is man
+Deadpool is man
+Sand man is man
+Magneto is man
+Wolverine is man
+Storm is woman
+Mystique is woman
+Jean Grey is woman
+Juggernaut has extra strength
+Beast has extra strength
+Deadpool has regeneration
+Wolverine has regeneration
+Juggernaut is bulletproof
+Wolverine is bulletproof
+Professor X has telepathy
+Jean Grey has telepathy
+Mystique is shape-shifter
+Sand man is shape-shifter
+Sand man is bulletproof
+Magneto is bulletproof
+Storm can fly
+Magneto can fly
+Mystique has extra strength
