@@ -3,68 +3,74 @@
   (:require [clojure-course.week9.read_dataset_example :as data])
   )
 
-(defn is_man_rule [s]
-  (string/ends-with? s "man")
+(defn check_rule
+  [dataset rule]
+  (let [output_items (atom [])]
+    (doseq [item dataset]
+      (when (true? (rule item))
+        (swap! output_items conj item)
+        )
+      )
+    @output_items
+    )
   )
 
-(defn is_woman_rule [s]
-  (string/ends-with? s "woman")
+(defn get_names [items]
+  (into []
+        (map #(first (string/split % #"\ ")) items)
+        )
   )
 
-(defn has_extra_strength [s]
-  (string/ends-with? s "extra strength")
+(defn has_extra_strength [dataset]
+  (check_rule dataset #(string/ends-with? % "extra strength"))
   )
 
-(defn has_regeneration [s]
-  (string/ends-with? s "regeneration")
+(defn has_regeneration [dataset]
+  (check_rule dataset #(string/ends-with? % "regeneration"))
   )
 
-(defn is_bulletproof [s]
-  (string/ends-with? s "bulletproof")
+(defn is_bulletproof [dataset]
+  (check_rule dataset #(string/ends-with? % "bulletproof"))
   )
 
-(defn has_telepathy [s]
-  (string/ends-with? s "telepathy")
+(defn has_telepathy [dataset]
+  (check_rule dataset #(string/ends-with? % "telepathy"))
   )
 
-(defn is_shape_shifter [s]
-  (string/ends-with? s "shape-shifter")
+(defn is_shape_shifter [dataset]
+  (check_rule dataset #(string/ends-with? % "shape-shifter"))
   )
 
-(defn can_fly [s]
-  (string/ends-with? s "fly")
+(defn can_fly [dataset]
+  (check_rule dataset #(string/ends-with? % "fly"))
   )
 
-(defn reasoning_for_item
-  [item rules_to_apply]
-  (let [all_rules_executed (atom true)
+(defn and! [arg1 arg2]
+  (let [names1 (get_names arg1)
+        names2 (get_names arg2)
+        names_output (atom [])
         ]
-    (doseq [rule rules_to_apply]
-      (when (false? (rule item))
-        (reset! all_rules_executed false)
-        )
+    (doseq [n names1
+            :when (.contains names2 n)
+            ]
+      (swap! names_output conj n)
       )
-    @all_rules_executed
+    @names_output
     )
   )
 
-(defn perform_reasoning
-  [dataset rules_to_apply]
-  (let [lines_match (atom [])]
-    (doseq [line dataset]
-      (when (reasoning_for_item line rules_to_apply)
-        (swap! lines_match conj line)
-        )
-      )
-    @lines_match
-    )
+(defn or! [arg1 arg2]
+  (distinct (concat arg1 arg2))
   )
 
-(println "test")
-(def all_lines (data/read_superheroes_dataset))
-(println "all_lines =" all_lines)
-(def rules1 [can_fly])
-(println "result1 =" (perform_reasoning all_lines rules1))
+(def dataset (data/read_superheroes_dataset))
+(println "Super heroes with extra strength =" (get_names (has_extra_strength dataset)) )
+(println "Super heroes who is a shape-shifter AND is bulletproof =" (get_names (and! (is_shape_shifter dataset) (is_bulletproof dataset))))
+(println "Super heroes who has telepathy OR regeneration =" (get_names (or! (has_telepathy dataset) (has_regeneration dataset))))
+
+
+
+
 
 
 
