@@ -1,5 +1,5 @@
 (ns clojure-course.week9.forward_chaining
-  (:require [clojure.string :as string :only [ends-with?]])
+  (:require [clojure.string :as string])
   (:require [clojure-course.week9.read_dataset_example :as data])
   )
 
