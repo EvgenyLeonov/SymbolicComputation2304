@@ -1,0 +1,12 @@
+Crocodile and his friend fish Arkadiy went for a walk in the park.
+Crocodile wants to treat Arkadiy to beer (he pours it directly into the aquarium),
+buy him a balloon, entertain him on a swing, and relax by the fountain.
+Write a program that processes the graph and visits all points in any order.
+Estimated output: print all visited points (full names).
+
+Points:
+A - entrance
+B - beer stall
+C - balloon shop
+D - swing
+E - fountain

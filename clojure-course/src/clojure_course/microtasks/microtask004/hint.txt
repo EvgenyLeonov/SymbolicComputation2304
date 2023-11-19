@@ -1,0 +1,8 @@
+Firstly, I suggest to encode long names of locations with short codes, for example, A, B, C...
+Secondly, you may check several solutions:
+1) week6\bfs_graph
+2) week6\dfs_graph
+3) week6\oregon_trail
+4) week7\bfs_queue <-- this is the easiest one
+
+It is up to you what metaphor to use to process the input dataset. It may be a graph, but also it can be a tree or any convenient concept.
