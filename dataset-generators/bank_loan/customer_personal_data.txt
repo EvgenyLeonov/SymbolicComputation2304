@@ -1,0 +1,13 @@
+Name,Salary
+Isabella Holmes,29000
+Noah Harris,13000
+Ava Davidson,26000
+Sophia Adams,27000
+Roman Allen,44000
+Alfie Jones,52000
+Rosie Allen,67000
+Isabella Stevens,63000
+Isla Robinson,99000
+Sofia Chapman,81000
+Sophia White,81000
+Freddie Webb,96000
