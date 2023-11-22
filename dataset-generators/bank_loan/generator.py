@@ -2,7 +2,7 @@ import random
 
 from bank_loan.Person import Person
 
-NUMBER_OF_PERSONS = 12
+NUMBER_OF_PERSONS = 120
 MIN_SALARY = 10
 MAX_SALARY = 100
 YEAR_START = 2010
@@ -29,7 +29,6 @@ while len(all_persons) < NUMBER_OF_PERSONS:
     if full_name not in full_names_cache:
         prs = Person()
         prs.full_name = full_name
-
         all_persons.append(prs)
         full_names_cache.append(full_name)
 
@@ -44,7 +43,9 @@ for strata in range(1, 4):
     border2 = strata * strata_count - 1
     print(f"border1={border1}; border2={border2}")
     for index_person in range(border1, border2 + 1):
-        all_persons[index_person].month_salary = random.randint(min_salary, max_salary) * 1000
+        pers = all_persons[index_person]
+        pers.strata = strata
+        pers.month_salary = random.randint(min_salary, max_salary) * 1000
 
 with open("customer_personal_data.txt", "w") as fp:
     fp.write("Name,Salary\n")
@@ -97,18 +98,22 @@ for person in all_persons:
         payment_amount = int(total_amount / duration)
         tokens_date = date_start.split("-")
         current_day = int(tokens_date[0])
-        current_month = int(tokens_date[1])
+        # start to pay interest from the next month
+        current_month = int(tokens_date[1]) + 1
+        if current_month > 12:
+            current_month = current_month - 12
         current_year = int(tokens_date[2])
 
-        for payment_num in range(0, duration):
+        paid_amount = 0
+        while paid_amount < total_amount:
             risk = risks[person.risk_category] - risk_delta
+            if person.strata == 1:
+                risk = risk + 5
             skip = 0 <= random.randint(1, 100) <= risk
-            if skip:
-                need_to_pay = 0
-            else:
-                need_to_pay = payment_amount
-            payment_info = f"{loan_name},{current_day:02}-{current_month:02}-{current_year},{need_to_pay}"
-            person.payments.append(payment_info)
+            if not skip:
+                paid_amount = paid_amount + payment_amount
+                payment_info = f"{loan_name},{current_day:02}-{current_month:02}-{current_year},{payment_amount}"
+                person.payments.append(payment_info)
             current_month = current_month + 1
             if current_month > 12:
                 current_month = 1

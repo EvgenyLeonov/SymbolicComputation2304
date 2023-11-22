@@ -7,6 +7,7 @@ class Person:
 		# 2-4
 		self.month_payment_share = 0
 		self.risk_category = 0
+		self.strata = -1
 
 
 
