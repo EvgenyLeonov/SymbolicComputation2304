@@ -9,7 +9,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bank_loan/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bank_loan/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bank_loan/customer_personal_data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bank_loan/customer_personal_data.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bank_loan/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/bank_loan/generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bank_loan/loans.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bank_loan/loans.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bank_loan/payments.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bank_loan/payments.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
