@@ -6,7 +6,7 @@ NUMBER_OF_PERSONS = 120
 MIN_SALARY = 10
 MAX_SALARY = 100
 YEAR_START = 2010
-YEAR_END = 2012
+YEAR_END = 2021
 
 with open("names.txt") as file:
     all_names = [line.rstrip() for line in file]
