@@ -97,12 +97,13 @@ for person in all_persons:
         duration = int(tokens[4])
         payment_amount = int(total_amount / duration)
         tokens_date = date_start.split("-")
+        current_year = int(tokens_date[2])
         current_day = int(tokens_date[0])
         # start to pay interest from the next month
         current_month = int(tokens_date[1]) + 1
         if current_month > 12:
-            current_month = current_month - 12
-        current_year = int(tokens_date[2])
+            current_month = 1
+            current_year = current_year + 1
 
         paid_amount = 0
         while paid_amount < total_amount:
