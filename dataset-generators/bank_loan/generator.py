@@ -66,16 +66,16 @@ for person in all_persons:
     while current_year < YEAR_END:
         loan_name = "loan_" + str(len(person.loans) + 1)
         day_start = random.randint(1, 25)
-        month_start = current_month
         year_start = current_year
         duration = random.randint(4, 12)
         share = risks[person.risk_category] + random.randint(-10, 10)
         amount = int(person.month_salary * share / 100 * duration)
-        month_end = month_start + duration
+        month_end = current_month + duration
         if month_end > 12:
             month_end = month_end - 12
             current_year = current_year + 1
-        loan_info = f"{loan_name},{day_start:02}-{month_start:02}-{year_start},{amount},{day_start:02}-{month_end:02}-{current_year},{duration}"
+        loan_info = f"{loan_name},{day_start:02}-{current_month:02}-{year_start},{amount},{day_start:02}-{month_end:02}-{current_year},{duration}"
+        current_month = month_end
         person.loans.append(loan_info)
 
 with open("loans.txt", "w") as fp:
@@ -111,10 +111,13 @@ for person in all_persons:
             if person.strata == 1:
                 risk = risk + 5
             skip = 0 <= random.randint(1, 100) <= risk
-            if not skip:
-                paid_amount = paid_amount + payment_amount
-                payment_info = f"{loan_name},{current_day:02}-{current_month:02}-{current_year},{payment_amount}"
-                person.payments.append(payment_info)
+            if skip:
+                need_to_pay = 0
+            else:
+                need_to_pay = payment_amount
+            payment_info = f"{loan_name},{current_day:02}-{current_month:02}-{current_year},{need_to_pay}"
+            paid_amount = paid_amount + need_to_pay
+            person.payments.append(payment_info)
             current_month = current_month + 1
             if current_month > 12:
                 current_month = 1
