@@ -1,4 +1,4 @@
-(ns clojure-course.week10.selection_sort
+(ns clojure-course.week10.sorting_demos1
   (:require [clojure-course.week10.sorting_init_data :as data])
   )
 
