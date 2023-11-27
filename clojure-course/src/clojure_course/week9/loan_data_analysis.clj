@@ -2,11 +2,6 @@
   (:require [clojure.string :only [split]])
   )
 
-(defn read_dataset [filepath]
-  (with-open [rdr (clojure.java.io/reader filepath)]
-    (let [line (line-seq rdr)]
-      (clojure.string/join "\n" line))))
-
 (defn read_customer_personal_data []
   (into [] (rest
              (with-open [rdr (clojure.java.io/reader "src/clojure_course/week9/customer_personal_data.txt")]
@@ -91,7 +86,7 @@
     )
   )
 
-(defn hypothesis_loan_share_of_salary
+(defn hypothesis_loan_share_of_income
   [customers_data loan_data payments_data]
   (loop [ind 0]
     (when (< ind (count loan_data))
@@ -124,19 +119,29 @@
     )
   )
 
+(defn hypothesis_income_month_payment
+  [customers_data loan_data payments_data]
+  (loop [ind 0]
+    (when (< ind (count loan_data))
+      (let [loan_tokens (clojure.string/split (get loan_data ind) #",")
+            customer_name (first loan_tokens)
+            customer_income (get_customer_income customer_name customers_data)
+            loan_title (second loan_tokens)
+            loan_amount (Integer/parseInt (get loan_tokens 3))
+            loan_duration (Integer/parseInt (last loan_tokens))
+            month_payment (float (/ loan_amount loan_duration))
+            month_payment_rate (float (/ month_payment customer_income))
+            missed_payments_by_loan (get_missed_payments_by_loan customer_name loan_title payments_data)
+            ]
+        (println customer_name "," loan_title "," customer_income "," month_payment "," month_payment_rate "," missed_payments_by_loan)
+        (recur (inc ind)))
+      )
+    )
+  )
 
-;(hypothesis_income_missed_payments (read_customer_personal_data) (read_payments))
 
-(hypothesis_loan_share_of_salary (read_customer_personal_data) (read_loans) (read_payments))
+(hypothesis_income_missed_payments (read_customer_personal_data) (read_payments))
 
-; DEBUG
-;(println (read_customer_personal_data))
+;(hypothesis_loan_share_of_income (read_customer_personal_data) (read_loans) (read_payments))
 
-;(println (get_missed_payments_by_loan "Ivy Allen" "loan_2" (read_payments)))
-
-
-
-
-
-
-
+;(hypothesis_income_month_payment (read_customer_personal_data) (read_loans) (read_payments))
