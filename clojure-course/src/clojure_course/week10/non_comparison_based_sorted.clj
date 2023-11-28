@@ -70,13 +70,12 @@
                        1.0
                        (float (/ max_value num_of_buckets))
                        )
-        _ (println "buckets_size=" buckets_size)
         sorted_vector (atom [])
         ]
     ; doesn't work: refer to the same atom
     ; buckets (into [] (repeat num_of_buckets (atom [])))
     (loop [ind 0]
-      (when (< ind 5)
+      (when (< ind num_of_buckets)
         (swap! buckets conj (atom []))
         (recur (inc ind))
         )
@@ -119,17 +118,16 @@
     ; combine all buckets together
     (loop [ind_bucket 0]
       (when (< ind_bucket (count @buckets))
-        (swap! sorted_vector conj @(get @buckets ind_bucket))
+        (swap! sorted_vector concat @(get @buckets ind_bucket))
         (recur (inc ind_bucket))
         )
       )
-    @sorted_vector
+    (into [] @sorted_vector)
     )
   )
 
-
-;(println "original vector for Counting Sort =" data/vector_to_sort2)
-;(println "Counting Sort =>" (counting_sort data/vector_to_sort2))
+(println "original vector for Counting Sort =" data/vector_to_sort2)
+(println "Counting Sort =>" (counting_sort data/vector_to_sort2))
 (println "original vector for Bucket Sort =" data/vector_to_sort3)
 (println "Bucket Sort =>" (bucket_sort data/vector_to_sort3))
 

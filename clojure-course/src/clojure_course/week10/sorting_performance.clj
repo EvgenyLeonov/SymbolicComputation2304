@@ -1,5 +1,6 @@
 (ns clojure-course.week10.sorting_performance
   (:require [clojure-course.week10.comparison_based_sorting :as routines])
+  (:require [clojure-course.week10.non_comparison_based_sorted :as routines2])
   (:require [clojure-course.week10.sorting_large_dataset :as data])
   )
 
@@ -12,6 +13,10 @@
 (time (routines/bubble_sort_routines original_vector))
 (println "Insertion Sort =>")
 (time (routines/insertion_sort_routines original_vector))
+(println "Counting Sort =>")
+(time (routines2/counting_sort original_vector))
+(println "Bucket Sort =>")
+;(time (routines2/bucket_sort original_vector))
 
 (println "=== ALMOST SORTED VECTOR (COMPARISON BASED) ===")
 (def original_vector_a_s data/large_vector_almost_sorted)
@@ -22,7 +27,10 @@
 (time (routines/bubble_sort_routines original_vector_a_s))
 (println "Insertion Sort =>")
 (time (routines/insertion_sort_routines original_vector_a_s))
-
+(println "Counting Sort =>")
+(time (routines2/counting_sort original_vector_a_s))
+(println "Bubble Sort =>")
+(time (routines2/bucket_sort original_vector_a_s))
 
 
 
