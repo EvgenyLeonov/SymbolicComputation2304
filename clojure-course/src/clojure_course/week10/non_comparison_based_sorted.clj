@@ -63,13 +63,13 @@
   [input_vector]
   (let [vect_size (count input_vector)
         min_value (apply min input_vector)
-        max_value (apply max input_vector)
+        max_value (- (apply max input_vector) min_value)
         num_of_buckets 5
         buckets (atom [])
-        buckets_size (if (< (float (/ max_value num_of_buckets)) 1)
-                       1.0
-                       (float (/ max_value num_of_buckets))
-                       )
+        buckets_size (int (if (< (float (/ max_value num_of_buckets)) 1)
+                            1.0
+                            (float (/ max_value num_of_buckets))
+                            ))
         sorted_vector (atom [])
         ]
     ; doesn't work: refer to the same atom
@@ -85,12 +85,11 @@
     (loop [ind 0]
       (when (< ind vect_size)
         (let [elem (get input_vector ind)
-              bucket_index_preliminary (/ (- elem min_value) buckets_size)
-              bucket_index (int (if (= bucket_index_preliminary buckets_size)
+              bucket_index_preliminary (int (/ (- elem min_value) buckets_size))
+              bucket_index (if (= bucket_index_preliminary num_of_buckets)
                                   (dec bucket_index_preliminary)
                                   bucket_index_preliminary
-                                  ))
-              ;_ (println "bucket_index =" bucket_index)
+                                  )
               ]
           (swap! (get @buckets bucket_index) conj elem)
           )

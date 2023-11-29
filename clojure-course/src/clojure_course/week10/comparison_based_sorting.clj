@@ -80,8 +80,9 @@
     )
   )
 
-(println "original vector =" data/vector_to_sort)
-(println "Selection Sort =>" (selection_sort_routines data/vector_to_sort))
-(println "Bubble Sort =>" (bubble_sort_routines data/vector_to_sort))
-(println "Insertion Sort =>" (insertion_sort_routines data/vector_to_sort))
+; uncomment this
+;(println "original vector =" data/vector_to_sort)
+;(println "Selection Sort =>" (selection_sort_routines data/vector_to_sort))
+;(println "Bubble Sort =>" (bubble_sort_routines data/vector_to_sort))
+;(println "Insertion Sort =>" (insertion_sort_routines data/vector_to_sort))
 

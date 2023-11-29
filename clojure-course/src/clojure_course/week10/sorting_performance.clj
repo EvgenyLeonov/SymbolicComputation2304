@@ -16,7 +16,7 @@
 (println "Counting Sort =>")
 (time (routines2/counting_sort original_vector))
 (println "Bucket Sort =>")
-;(time (routines2/bucket_sort original_vector))
+(time (routines2/bucket_sort original_vector))
 
 (println "=== ALMOST SORTED VECTOR (COMPARISON BASED) ===")
 (def original_vector_a_s data/large_vector_almost_sorted)
@@ -29,7 +29,7 @@
 (time (routines/insertion_sort_routines original_vector_a_s))
 (println "Counting Sort =>")
 (time (routines2/counting_sort original_vector_a_s))
-(println "Bubble Sort =>")
+(println "Bucket Sort =>")
 (time (routines2/bucket_sort original_vector_a_s))
 
 
