@@ -4,7 +4,7 @@
   (:require [clojure-course.week10.sorting_large_dataset :as data])
   )
 
-(println "=== RANDOM VECTOR (COMPARISON BASED) ===")
+(println "=== RANDOM VECTOR ===")
 (def original_vector data/large_vector)
 (println "original vector size =" (count original_vector))
 (println "Selection Sort =>")
@@ -18,7 +18,7 @@
 (println "Bucket Sort =>")
 (time (routines2/bucket_sort original_vector))
 
-(println "=== ALMOST SORTED VECTOR (COMPARISON BASED) ===")
+(println "=== ALMOST SORTED VECTOR ===")
 (def original_vector_a_s data/large_vector_almost_sorted)
 (println "original vector size =" (count original_vector_a_s))
 (println "Selection Sort =>")
