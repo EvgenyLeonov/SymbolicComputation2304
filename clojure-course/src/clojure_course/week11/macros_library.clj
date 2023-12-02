@@ -16,6 +16,20 @@
     )
   )
 
+(defmacro when2
+  [cond & body]
+  `(if ~cond
+     (do ~@body)
+     )
+  )
+
+(when2 (> 10 5)
+       (println "when2 works")
+       (println "second statement")
+       )
+
+(macroexpand-1 `(when2 (> 10 5) (println "when2 works")))
+
 (defrecord Node [name left_node right_node])
 
 (defmacro invert_binary_tree
@@ -25,7 +39,7 @@
   )
 
 (def this_is_my_variable 100)
-(say_opinion this_is_my_variable)
+;(say_opinion this_is_my_variable)
 
 (def original_tree (binary_tree_data/create_tree_simple))
 ;(binary_tree_data/print_binary_tree original_tree)
