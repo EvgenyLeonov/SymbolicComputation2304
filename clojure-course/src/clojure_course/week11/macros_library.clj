@@ -23,10 +23,12 @@
      )
   )
 
-(when2 (> 10 5)
-       (println "when2 works")
-       (println "second statement")
-       )
+(defn run_when2 []
+  (when2 (> 10 5)
+         (println "when2 works")
+         (println "second statement")
+         )
+  )
 
 (macroexpand-1 `(when2 (> 10 5) (println "when2 works")))
 
@@ -35,11 +37,13 @@
 (defmacro invert_binary_tree
   "inverts a binary tree and returns its root node"
   [root_node]
-  (binary_tree/invert_tree (eval root_node) )
+  (binary_tree/invert_tree (eval root_node))
   )
 
 (def this_is_my_variable 100)
-;(say_opinion this_is_my_variable)
+(say_opinion this_is_my_variable)
+
+;(run_when2)
 
 (def original_tree (binary_tree_data/create_tree_simple))
 ;(binary_tree_data/print_binary_tree original_tree)

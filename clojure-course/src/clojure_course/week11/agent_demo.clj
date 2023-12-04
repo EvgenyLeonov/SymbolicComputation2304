@@ -15,10 +15,10 @@
   )
 
 (def agent1 (agent 400))
-;(add-watch agent1 :agentWatcher watch_handler)
+(add-watch agent1 :agentWatcher watch_handler)
 (send agent1 incrementation 300)
 (await-for 2000 agent1 )
-(println @agent1)
+(println "result in the end =" @agent1)
 
 
 
