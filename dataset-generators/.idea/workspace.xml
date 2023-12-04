@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1378e811-ac24-4710-80c5-f674e6ba8498" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../clojure-course/src/clojure_course/week10/comparison_based_sorting.clj" beforeDir="false" afterPath="$PROJECT_DIR$/../clojure-course/src/clojure_course/week10/comparison_based_sorting.clj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../clojure-course/src/clojure_course/week10/non_comparison_based_sorted.clj" beforeDir="false" afterPath="$PROJECT_DIR$/../clojure-course/src/clojure_course/week10/non_comparison_based_sorted.clj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flights/Topology.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/flights/Topology.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +60,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\temp\dataset-generators\Scripts\python.exe" />
-      <option name="SDK_NAME" value="Python 3.10" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/sorting" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -86,7 +82,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\temp\dataset-generators\Scripts\python.exe" />
-      <option name="SDK_NAME" value="Python 3.10" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/sorting" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -109,7 +104,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.10" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bank_loan" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -132,7 +126,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.10" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -175,6 +168,7 @@
       <workItem from="1700725871425" duration="2451000" />
       <workItem from="1701178675773" duration="1540000" />
       <workItem from="1701185968151" duration="1849000" />
+      <workItem from="1701701726035" duration="817000" />
     </task>
     <servers />
   </component>
