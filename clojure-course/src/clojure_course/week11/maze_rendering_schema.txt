@@ -1,0 +1,12 @@
+|\          /|
+| |\ ____ /| |
+| | |    | | |
+| | |____| | |
+| |/      \| |
+|/          \|
+
+
+
+
+; hack to clear the REPL screen
+(print (str (char 27) "[2J"))
