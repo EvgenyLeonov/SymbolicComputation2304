@@ -6,6 +6,7 @@ class Person:
 		self.city1 = ""
 		self.city2 = ""
 		self.price_for_flight = 0
+		self.price_for_flight_modified = 0
 
 	def get_full_name(self):
 		return self.name + " " + self.surname

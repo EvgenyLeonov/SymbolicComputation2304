@@ -3,9 +3,9 @@ import random
 from flights.Person import Person
 from flights.RouteInfo import RouteInfo
 
-TEAM_ID = 1
-FAMILIES_TOTAL_COUNT = 10  # random.randint(50, 80)
-TOURS_TOTAL_COUNT = 10  # random.randint(50, 80)
+TEAM_ID = 7
+FAMILIES_TOTAL_COUNT = 150  # random.randint(50, 80)
+TOURS_TOTAL_COUNT = 150  # random.randint(50, 80)
 
 routes_all = [
 	RouteInfo("Krakow", "Zagreb", [700, 800, 900]),
@@ -117,22 +117,26 @@ while (families_count < FAMILIES_TOTAL_COUNT) or (tours_count < TOURS_TOTAL_COUN
 					price_index = 1
 				else:
 					price_index = 2
+		else:
+			price_index = 0
 
 	if price_index == -1:
 		print("ERROR: undefined price_index")
 
 	original_price = prices_options[price_index]
+	perc = random.randint(1, 4)
+	special_price = original_price + int(perc / 100 * original_price)
 	for p in persons:
 		p.city1 = route_to_flight.city1
 		p.city2 = route_to_flight.city2
 		p.price_for_flight = original_price
+		p.price_for_flight_modified = special_price
 		persons_routes_direct.append(p)
 
 with open(f"sales_team_{TEAM_ID}.csv", "w") as f:
 	f.write("NAME,YOB,DEPARTURE,DESTINATION,PAID\n")
 	for p in persons_routes_direct:
-		sp_price = p.price_for_flight + int(0.05 * p.price_for_flight)
-		f.write(f"{p.get_full_name()},{p.yob},{p.city1},{p.city2},{p.price_for_flight}\n")
+		f.write(f"{p.get_full_name()},{p.yob},{p.city1},{p.city2},{p.price_for_flight_modified}\n")
 
 with open(f"broker_team_{TEAM_ID}.csv", "w") as f:
 	f.write("NAME,YOB,DEPARTURE,DESTINATION,PAID\n")
