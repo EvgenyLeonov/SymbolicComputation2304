@@ -40,7 +40,18 @@
 
 (defn c1 [])
 (defn c2 [])
-(defn c3 [])
+(defn c3 []
+  (into []
+        (concat
+          [" " " " "|" "|" " " " "]
+          [" " "_" " " " " "_" " "]
+          [" " "_" " " " " "_" " "]
+          [" " "_" " " " " "_" " "]
+          [" " "_" " " " " "_" " "]
+          [" " " " "|" "|" " " " "]
+          )
+        )
+  )
 (defn l1 []
   (into []
     (concat
@@ -49,9 +60,19 @@
       )
     )
   )
-(defn l2 [])
+(defn l2 []
+  (into []
+        (concat
+          [" " "|" "|" "|" "|" " "]
+          [" " "/" " " " " "\\" " "]
+          )
+        )
+  )
 (defn r1 [])
-(defn r2 [])
+(defn r2 []
+
+
+  )
 
 (def rendering_rules
   ; render from left to right
@@ -65,7 +86,7 @@
   [scene_definition]
   (let [c3_set (:c3 scene_definition)
         c2_set (:c2 scene_definition)
-        c1_set (:c2 scene_definition)
+        c1_set (:c1 scene_definition)
         rule_key (cond
                    (true? c3_set) "C3"
                    (true? c2_set) "C2"
