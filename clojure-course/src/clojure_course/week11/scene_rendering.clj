@@ -5,22 +5,8 @@
 (def SCENE_WIDTH 14)
 (def SCENE_HEIGHT 6)
 
-; 13 x 6
-(def scene_content_demo
-  [["|" "\\" " " " " " " " " " " " " " " " " " " " " "/" "|"]
-   ["|" " " "|" "\\" " " "_" "_" "_" "_" " " "/" "|" " " "|"]
-   ["|" " " "|" " " "|", " " " " " " " ", "|" "" " " "|" " " "|"]
-   ["|" " " "|" " " "|", "_" "_" "_" "_", "|" "" " " "|" " " "|"]
-   ["|" " " "|" "/" " " " " " " " " " " " " "\\" "|" " " "|"]
-   ["|" "/" " " " " " " " " " " " " " " " " " " " " "\\" "|"]
-   ]
-
-  )
-
 (defn render_scene
   [content]
-  ; hack to clear the REPL screen
-  (print (str (char 27) "[2J"))
   (loop [row 0]
     (when (< row (count content))
       (let [row_content (get content row)
@@ -29,17 +15,15 @@
         (recur (inc row)))
       )
     )
-
   )
 
-;(render_scene scene_content_demo)
 
 ; all are boolean
 (defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2])
 
 (def scene_c3 (Scene_definition. false false true true true true true))
 (def scene_c2 (Scene_definition. false true false true true true true))
-(def scene_c1 (Scene_definition. true false false true true true true))
+(def scene_c1 (Scene_definition. true false true true true true true))
 
 (defn c1 []
   [
@@ -77,6 +61,56 @@
    [" " "_" " " "_" " " " "]
    [" " " " "|" "|" " " " "]]
   )
+
+(defn lr_empty []
+  [
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))]
+  )
+
+(defn c3_empty []
+  [
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   ]
+  )
+
+(defn c2_empty []
+  [
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   ]
+  )
+
+(defn c1_empty []
+  [
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   (into [] (repeat SCENE_HEIGHT " "))
+   ]
+  )
+
 (defn l1 []
   [
    (into [] (repeat SCENE_HEIGHT "|"))
@@ -106,7 +140,18 @@
   {"C1" [c1]
    "C2" [l1 c2 r1]
    "C3" [l1 l2 c3 r2 r1]
-   ;"C3" [l1 l2]
+   }
+  )
+
+(def rules_mapping
+  {
+   l1 :l1
+   l2 :l2
+   r1 :r1
+   r2 :r2
+   c1 :c1
+   c2 :c2
+   c3 :c3
    }
   )
 
@@ -119,6 +164,7 @@
                    (true? c3_set) "C3"
                    (true? c2_set) "C2"
                    (true? c1_set) "C1"
+                   :else "C3"
                    )
         rule (get rendering_rules rule_key)
         ;_ (println "rules=" rules)
@@ -150,13 +196,26 @@
     )
   )
 
-(defn render_instructions_to_scene
-  [rule scene_definition]
-  (let [scene (atom [])]
+(defn prepare_instructions_for_scene
+  [scene_definition]
+  (let [rule (prepare_rendering_instructions scene_definition)
+        scene (atom [])]
     (loop [index 0]
       (when (< index (count rule))
-        (let [rule (get rule index)]
-          (swap! scene concat (rule))
+        (let [rule (get rule index)
+              key (get rules_mapping rule)
+              exists (true? (get scene_definition key))
+              ;_ (println "key =" key "exists =" exists)
+              ]
+          (if (true? exists)
+            (swap! scene concat (rule))
+            (cond
+              (= key :c3) (swap! scene concat (c3_empty))
+              (= key :c2) (swap! scene concat (c2_empty))
+              (= key :c1) (swap! scene concat (c1_empty))
+              :else (swap! scene concat (lr_empty))
+              )
+            )
           )
         (recur (inc index))
         )
@@ -178,13 +237,10 @@
     )
   )
 
+;(def scene_instr (prepare_instructions_for_scene scene_c3))
+;(println "scene_instr =" scene_instr)
 
-(def scene_rule (prepare_rendering_instructions scene_c1))
-(println "scene_rule =" scene_rule)
-(def scene_instr (render_instructions_to_scene scene_rule nil))
-(println "scene_instr =" scene_instr)
-
-(render_scene scene_instr)
+;(render_scene scene_instr)
 
 ;(println (l1))
 
