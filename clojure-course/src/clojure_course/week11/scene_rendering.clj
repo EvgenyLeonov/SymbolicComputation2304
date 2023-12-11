@@ -237,10 +237,10 @@
     )
   )
 
-;(def scene_instr (prepare_instructions_for_scene scene_c3))
+(def scene_instr (prepare_instructions_for_scene scene_c2))
 ;(println "scene_instr =" scene_instr)
 
-;(render_scene scene_instr)
+(render_scene scene_instr)
 
 ;(println (l1))
 
