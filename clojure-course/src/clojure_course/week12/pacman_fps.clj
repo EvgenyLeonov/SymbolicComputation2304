@@ -61,8 +61,8 @@
                 new_column (+ @pacman_current_column modificator_column)
                 ]
               (when (not (maze_map_rendering/is_wall? maze_map new_row new_column))
-                (reset! pacman_current_row modificator_row)
-                (reset! pacman_current_column modificator_column)
+                (reset! pacman_current_row new_row)
+                (reset! pacman_current_column new_column)
                 )
             )
           )
