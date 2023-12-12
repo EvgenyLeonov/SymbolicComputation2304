@@ -9,50 +9,80 @@
 
 (def WALL 2)
 
+(defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2])
+(defrecord Object_on_map [id row column])
+
 (def maze_map
   [
    [2 2 2 2 2 2 2 2]
-   [2 1 2 0 2 0 2 2]
    [2 0 0 0 0 0 0 2]
-   [2 2 0 2 0 0 2 2]
-   [2 0 0 0 2 0 2 2]
+   [2 0 2 2 0 2 0 2]
+   [2 0 0 0 0 0 0 2]
    [2 2 2 2 2 2 2 2]
    ]
   )
 
-(defn render_maze_map [maze_map direction_of_sight]
-  (loop [row 0]
-    (when (< row (count maze_map))
-      (let [row_content (get maze_map row)
-            row_content_count (count row_content)
-            last_column (dec row_content_count)
-            ]
-        (loop [column 0]
-          (when (< column row_content_count)
-            (let [item (get row_content column)
-                  direction_of_sight_upper (clojure.string/upper-case direction_of_sight)
-                  player_symbol (cond
-                                  (= "N" direction_of_sight_upper) "^"
-                                  (= "S" direction_of_sight_upper) "V"
-                                  (= "W" direction_of_sight_upper) "<"
-                                  (= "E" direction_of_sight_upper) ">"
-                                  )
-                  item_to_render (cond
-                                   (= item 0) " "
-                                   (= item 1) player_symbol
-                                   (= item 2) "#"
-                                   (= item 3) "A"
-                                   (= item 4) "F"
-                                   )
-                  ]
-              (if (= last_column column)
-                (println item_to_render)
-                (print item_to_render)
-                )
-              (recur (inc column)))
-            )
+(defn get_id_object
+  ; objects are Object_on_map
+  [objects row column]
+  (loop [i 0]
+    (when (< i (count objects))
+      (let [o (get objects i)]
+        (if (and (= (:row o) row)
+                 (= (:column o) column)
+                 )
+          (int (:id o))
+          (recur (inc i))
           )
-        (recur (inc row)))
+        )
+      )
+    )
+  )
+
+(defn render_maze_map [maze_map direction_of_sight objects]
+  (let [direction_of_sight_upper (clojure.string/upper-case direction_of_sight)
+        player_symbol (cond
+                        (= "N" direction_of_sight_upper) "^"
+                        (= "S" direction_of_sight_upper) "V"
+                        (= "W" direction_of_sight_upper) "<"
+                        (= "E" direction_of_sight_upper) ">"
+                        )
+        ; TODO prepare symbols for other objects
+        ]
+    (loop [row 0]
+      (when (< row (count maze_map))
+        (let [row_content (get maze_map row)
+              row_content_count (count row_content)
+              last_column (dec row_content_count)
+              ]
+          (loop [column 0]
+            (when (< column row_content_count)
+              (let [object_here (get_id_object objects row column)
+                    item (get row_content column)
+                    item_to_render (if (nil? object_here)
+                                     ; no object found on these coordinates
+                                     (cond
+                                       (= item 0) " "
+                                       (= item 2) "#"
+                                       (= item 3) "A"
+                                       (= item 4) "F"
+                                       )
+                                     ; let's render object
+                                     (cond
+                                       (= object_here 1) player_symbol
+                                       ; TODO render other objects
+                                       )
+                                     )
+                    ]
+                (if (= last_column column)
+                  (println item_to_render)
+                  (print item_to_render)
+                  )
+                (recur (inc column)))
+              )
+            )
+          (recur (inc row)))
+        )
       )
     )
   )
@@ -62,8 +92,8 @@
   (let [last_row_index (dec (count maze))
         ; assumption is the maze has at least one row
         last_column_index (dec (count (get maze 0)))]
-    (if (and (>= row) (<= row last_row_index)
-             (>= column) (<= column last_column_index)
+    (if (and (>= row 0) (<= row last_row_index)
+             (>= column 0) (<= column last_column_index)
              )
       (let [row_content (get maze row)]
         (int (get row_content column))
@@ -73,35 +103,9 @@
     )
   )
 
-(defn can_move?
-  [maze current_row current_column direction_of_sight]
-  (let [
-        direction_of_sight_upper (clojure.string/upper-case direction_of_sight)
-        modificator_row (cond
-                          (= "N" direction_of_sight_upper) -1
-                          (= "S" direction_of_sight_upper) 1
-                          )
-        modificator_column (cond
-                             (= "W" direction_of_sight_upper) -1
-                             (= "E" direction_of_sight_upper) 1
-                             )
-        new_row (+ current_row modificator_row)
-        new_column (+ current_column modificator_column)
-        last_row_index (dec (count maze))
-        ;:when (>= last_row_index 0)
-        last_column_index (dec (count (get maze 0)))
-        result (not= WALL (get_maze_item maze new_row new_column))
-        ]
-    result
-    )
-  )
-
-(defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2])
-
 (defn is_wall?
   [maze row column]
   (let [v (get_maze_item maze row column)]
-    ;(println "v =" v)
     (if (nil? v)
       true
       (= WALL v)
@@ -116,9 +120,6 @@
 (defn apply_sight_modifiers
   [current_row current_column sight_modifiers index]
   (let [modif_vec (get sight_modifiers index)
-        ;_ (println "modif_vec =" modif_vec)
-        ;_ (println "sight_modifiers =" sight_modifiers)
-        ;_ (println "index =" index)
         modif_pos [(+ current_row (first modif_vec)) (+ current_column (second modif_vec))]
         ]
     modif_pos
@@ -128,9 +129,32 @@
 (defn get_scene_definition
   [maze current_row current_column direction_of_sight]
   (let [direction_of_sight_upper (clojure.string/upper-case direction_of_sight)
-        ;_ (println "direction_of_sight_upper =" direction_of_sight_upper)
         ; c1 c2 c3 l1 l2 r1 r2
         sight_modifiers_definition {
+                                    "N" [[-1 0]
+                                         [-2 0]
+                                         [-3 0]
+                                         [-1 -1]
+                                         [-2 -1]
+                                         [-1 1]
+                                         [-2 1]
+                                         ]
+                                    "W" [[0 -1]
+                                         [0 -2]
+                                         [0 -3]
+                                         [1 -1]
+                                         [1 -2]
+                                         [-1 -1]
+                                         [-1 -2]
+                                         ]
+                                    "E" [[0 1]
+                                         [0 2]
+                                         [0 3]
+                                         [-1 1]
+                                         [-1 2]
+                                         [1 1]
+                                         [1 2]
+                                         ]
                                     "S" [[1 0]
                                          [2 0]
                                          [3 0]
@@ -154,6 +178,24 @@
     )
   )
 
+(defn get_new_sight_direction
+  [direction_of_sight is_turn_left?]
+  ; TODO may it be solved more elegant?
+  (let [direction_of_sight_upper (clojure.string/upper-case direction_of_sight)
+        turn_rules {"N" ["W" "E"]
+                    "E" ["N" "S"]
+                    "S" ["E" "W"]
+                    "W" ["S" "N"]
+                    }
+        turn_rules_item (get turn_rules direction_of_sight_upper)
+        ]
+    (if (true? is_turn_left?)
+      (first turn_rules_item)
+      (second turn_rules_item)
+      )
+    )
+  )
+
 ; ======= DEBUG =========
 
 ;(render_maze_map maze_map "N")
@@ -165,7 +207,7 @@
 ;(println (is_wall? maze_map 3 1))
 ;(println (is_wall? maze_map 1 3))
 
-;(println (get_scene_definition maze_map 1 1 "s"))
+;(println (get_scene_definition maze_map 1 1 "N"))
 
 
 ; =======================

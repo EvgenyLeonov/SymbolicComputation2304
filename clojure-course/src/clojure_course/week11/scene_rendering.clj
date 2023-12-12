@@ -161,9 +161,9 @@
         c2_set (:c2 scene_definition)
         c1_set (:c1 scene_definition)
         rule_key (cond
-                   (true? c3_set) "C3"
-                   (true? c2_set) "C2"
                    (true? c1_set) "C1"
+                   (true? c2_set) "C2"
+                   (true? c3_set) "C3"
                    :else "C3"
                    )
         rule (get rendering_rules rule_key)
@@ -237,7 +237,7 @@
     )
   )
 
-(def scene_instr (prepare_instructions_for_scene scene_c2))
+(def scene_instr (prepare_instructions_for_scene scene_c1))
 ;(println "scene_instr =" scene_instr)
 
 (render_scene scene_instr)
