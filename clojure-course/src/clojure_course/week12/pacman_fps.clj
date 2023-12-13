@@ -27,7 +27,7 @@
           objects [(Object_on_map. PACMAN_ID @pacman_current_row @pacman_current_column)]
           ]
       ; render the current scene
-      ;(print (str (char 27) "[2J"))
+      (print (str (char 27) "[2J"))
       (scene_rendering/render_scene scene_instr)
       (println)
       (maze_map_rendering/render_maze_map maze_map @direction_of_sight objects)
