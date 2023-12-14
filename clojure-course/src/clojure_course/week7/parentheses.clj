@@ -1,5 +1,5 @@
 (ns clojure-course.week7.parentheses
-  (:require [clojure-course.week7.parentheses-init-data :as data])
+  (:require [clojure-course.week7.parentheses_init_data :as data])
   )
 
 (def must_match {"(" ")", "{" "}", "[", "]"})

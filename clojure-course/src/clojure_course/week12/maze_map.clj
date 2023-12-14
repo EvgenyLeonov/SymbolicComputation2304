@@ -25,18 +25,10 @@
 (defn get_id_object
   ; objects are Object_on_map
   [objects row column]
-  (loop [i 0]
-    (when (< i (count objects))
-      (let [o (get objects i)]
-        (if (and (= (:row o) row)
-                 (= (:column o) column)
-                 )
-          (int (:id o))
-          (recur (inc i))
-          )
-        )
-      )
-    )
+  (some->> objects
+           (filter #(and (= (:row %) row) (= (:column %) column)))
+           first
+           :id)
   )
 
 (defn render_maze_map [maze_map direction_of_sight objects]
