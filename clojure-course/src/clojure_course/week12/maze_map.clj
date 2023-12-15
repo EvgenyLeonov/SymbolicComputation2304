@@ -7,7 +7,10 @@
 ; 3 - monster
 ; 4 - food (Pacman eats this)
 
+(def PACMAN 1)
 (def WALL 2)
+(def MONSTER 3)
+(def FOOD 4)
 
 (defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2])
 (defrecord Object_on_map [id row column])
@@ -39,7 +42,8 @@
                         (= "W" direction_of_sight_upper) "<"
                         (= "E" direction_of_sight_upper) ">"
                         )
-        ; TODO prepare symbols for other objects
+        food_symbol "."
+        monster_symbol "A"
         ]
     (loop [row 0]
       (when (< row (count maze_map))
@@ -56,13 +60,12 @@
                                      (cond
                                        (= item 0) " "
                                        (= item 2) "#"
-                                       (= item 3) "A"
-                                       (= item 4) "F"
                                        )
                                      ; let's render object
                                      (cond
-                                       (= object_here 1) player_symbol
-                                       ; TODO render other objects
+                                       (= object_here PACMAN) player_symbol
+                                       (= object_here FOOD) food_symbol
+                                       (= object_here MONSTER) monster_symbol
                                        )
                                      )
                     ]
