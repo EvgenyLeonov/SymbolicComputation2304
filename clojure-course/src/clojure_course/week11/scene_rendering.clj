@@ -4,6 +4,8 @@
 ; rows 0-5
 (def SCENE_WIDTH 14)
 (def SCENE_HEIGHT 6)
+(def MONSTER 3)
+(def FOOD 4)
 
 (defn render_scene
   [content]
@@ -18,12 +20,12 @@
   )
 
 
-; all are boolean
-(defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2])
+; all are boolean except o1, o2 -- they are ids of objects
+(defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2 o1 o2])
 
-(def scene_c3 (Scene_definition. false false true true true true true))
-(def scene_c2 (Scene_definition. false true false true true true true))
-(def scene_c1 (Scene_definition. true false true true true true true))
+(def scene_c3 (Scene_definition. false false true true true true true nil MONSTER))
+(def scene_c2 (Scene_definition. false true false true true true true FOOD nil))
+(def scene_c1 (Scene_definition. true false true true true true true nil nil))
 
 (defn c1 []
   [
@@ -136,36 +138,61 @@
   )
 
 ; FOOD, 2 level
-(defn f2 []
-  [[" " "|" "|" "|" "|" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   ["_" " " " " " " "_" " "]
-   [" " "|" "|" "|" "|" " "]])
+(defn f1 []
+  [[" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " "^" "_" " "]
+   [" " " " " " "^" "_" " "]
+   [" " " " " " "^" "_" " "]
+   [" " " " " " "^" "_" " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]])
 
-(def rendering_rules
-  ; render from left to right
-  {"C1" [c1]
-   "C2" [l1 c2 r1]
-   "C3" [l1 l2 c3 r2 r1]
-   }
+(defn f2 []
+  [
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " "^" "_" " "]
+   [" " " " " " "^" "_" " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   ]
   )
 
-(def rules_mapping
-  {
-   l1 :l1
-   l2 :l2
-   r1 :r1
-   r2 :r2
-   c1 :c1
-   c2 :c2
-   c3 :c3
-   }
+(defn m1 []
+  [[" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " "|" " "]
+   [" " " " " " "_" "_" " "]
+   [" " " " " " "_" "_" " "]
+   [" " " " " " " " "|" " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]])
+
+(defn m2 []
+  [
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " "_" "|" " "]
+   [" " " " " " "_" "|" " "]
+   [" " " " " " " " " " " "]
+   [" " " " " " " " " " " "]
+   ]
+  )
+
+
+(defn get_func_object
+  [id level1?]
+  (cond
+    (and (= id FOOD) (true? level1?)) f1
+    (and (= id FOOD) (false? level1?)) f2
+    (and (= id MONSTER) (true? level1?)) m1
+    (and (= id MONSTER) (false? level1?)) m2
+    )
   )
 
 (defn prepare_rendering_instructions
@@ -179,15 +206,35 @@
                    (true? c3_set) "C3"
                    :else "C3"
                    )
-        rule (get rendering_rules rule_key)
+        rendering_rules {"C1" [c1]
+                         "C2" [l1 c2 r1]
+                         "C3" [l1 l2 c3 r2 r1]
+                         }
+        rule (atom (get rendering_rules rule_key))
         ;_ (println "rules=" rules)
+        o1_id (:o1 scene_definition)
+        o2_id (:o2 scene_definition)
+        o1? (not (nil? o1_id))
+        o2? (not (nil? o2_id))
         ]
-    rule
+    ; apply standing objects
+    (when (and (= rule_key "C2") o1?)
+      ; replace c2 with o1 TODO merge them here (o1 + c2)
+      (reset! rule [l1 (get_func_object o1_id true) r1])
+      )
+
+    (when (and (= rule_key "C3"))
+      ; replace c3 with o1 or o2 TODO merge them here (o1 + o2 + c3)
+      (when o1?
+        (reset! rule [l1 l2 (get_func_object o1_id true) r2 r1])
+        )
+      (when o2?
+        (reset! rule [l1 l2 (get_func_object o2_id false) r2 r1])
+        )
+      )
+    @rule
     )
   )
-
-;(prepare_rendering_instructions scene1)
-;(prepare_rendering_instructions scene2)
 
 (defn concat_matrix_column
   [matrix column_index]
@@ -212,12 +259,27 @@
 (defn prepare_instructions_for_scene
   [scene_definition]
   (let [rule (prepare_rendering_instructions scene_definition)
+        ;_ (println rule)
         scene (atom [])]
     (loop [index 0]
       (when (< index (count rule))
         (let [rule (get rule index)
+              rules_mapping
+              {
+               l1 :l1
+               l2 :l2
+               r1 :r1
+               r2 :r2
+               c1 :c1
+               c2 :c2
+               c3 :c3
+               }
               key (get rules_mapping rule)
-              exists (true? (get scene_definition key))
+              ; f1, f2, m1, m2 we render without conditions
+              exists (cond
+                       (or (= rule f1)(= rule f2)(= rule m1)(= rule m2)) true
+                       :else (true? (get scene_definition key))
+                       )
               ;_ (println "key =" key "exists =" exists)
               ]
           (if (true? exists)
@@ -235,8 +297,7 @@
       )
     ;(println "scene =" @scene)
     ; rotate this matrix by 90 degrees clockwise
-    (let [scene_rotated (atom [])
-          ]
+    (let [scene_rotated (atom [])]
       (loop [column_index 0]
         (when (< column_index SCENE_HEIGHT)
           (let [column_concatenated (concat_matrix_column @scene column_index)]
@@ -250,11 +311,10 @@
     )
   )
 
-(def scene_instr (prepare_instructions_for_scene scene_c1))
-;(println "scene_instr =" scene_instr)
+(def scene_instr (prepare_instructions_for_scene scene_c3))
 
 (render_scene scene_instr)
 
-;(println (l1))
+
 
 

@@ -12,7 +12,8 @@
 (def MONSTER 3)
 (def FOOD 4)
 
-(defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2])
+; all are boolean except o1, o2 -- they are ids of objects
+(defrecord Scene_definition [c1 c2 c3 l1 l2 r1 r2 o1 o2])
 (defrecord Object_on_map [id row column])
 
 (def maze_map
@@ -122,7 +123,7 @@
   )
 
 (defn get_scene_definition
-  [maze current_row current_column direction_of_sight]
+  [maze current_row current_column direction_of_sight objects]
   (let [direction_of_sight_upper (clojure.string/upper-case direction_of_sight)
         ; c1 c2 c3 l1 l2 r1 r2
         sight_modifiers_definition {
@@ -160,15 +161,26 @@
                                          ]
                                     }
         sight_modifiers (get sight_modifiers_definition direction_of_sight_upper)
+        m0 (apply_sight_modifiers current_row current_column sight_modifiers 0)
+        m1 (apply_sight_modifiers current_row current_column sight_modifiers 1)
+        m2 (apply_sight_modifiers current_row current_column sight_modifiers 2)
+        m3 (apply_sight_modifiers current_row current_column sight_modifiers 3)
+        m4 (apply_sight_modifiers current_row current_column sight_modifiers 4)
+        m5 (apply_sight_modifiers current_row current_column sight_modifiers 5)
+        m6 (apply_sight_modifiers current_row current_column sight_modifiers 6)
         ]
+    (println "m0=" m0 "; m1=" m1)
     (Scene_definition.
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 0))
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 1))
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 2))
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 3))
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 4))
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 5))
-      (is_wall?_vec maze (apply_sight_modifiers current_row current_column sight_modifiers 6))
+      (is_wall?_vec maze m0)
+      (is_wall?_vec maze m1)
+      (is_wall?_vec maze m2)
+      (is_wall?_vec maze m3)
+      (is_wall?_vec maze m4)
+      (is_wall?_vec maze m5)
+      (is_wall?_vec maze m6)
+      ; let's render objects that are directly ahead: c1 and c2 positions
+      (get_id_object objects (int (first m0)) (int (second m0)))
+      (get_id_object objects (int (first m1)) (int (second m1)))
       )
     )
   )
