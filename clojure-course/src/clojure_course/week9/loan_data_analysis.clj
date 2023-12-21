@@ -1,4 +1,4 @@
-(ns clojure-course.week9.loan-data-analysis
+(ns clojure-course.week9.loan_data_analysis
   (:require [clojure.string :only [split]])
   )
 
