@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1378e811-ac24-4710-80c5-f674e6ba8498" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/flights/broker_team_2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/broker_team_3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/broker_team_4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/broker_team_5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/broker_team_6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/broker_team_7.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/sales_team_2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/sales_team_3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/sales_team_4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/sales_team_5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/sales_team_6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flights/sales_team_7.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flights/Person.py" beforeDir="false" afterPath="$PROJECT_DIR$/flights/Person.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flights/broker_team_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/flights/broker_team_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flights/sales_info_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/flights/sales_info_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flights/sales_team_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/flights/sales_team_1.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
