@@ -19,7 +19,7 @@
           (and (not (engine/all_ships_sunken? ships hits))
                (<= y 10)
                )
-          (engine/shot! x y ships hits)
+          (engine/shot! x y ships hits true)
           (swap! turn_number inc)
           (recur (inc y))
           )

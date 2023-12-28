@@ -248,9 +248,11 @@
     )
   )
 
-(defn shot! [x y ships hits]
+(defn shot! [x y ships hits show_report?]
   (swap! hits conj (Coord. x y))
-  (report_attack x y (is_deck_there? x y ships))
+  (when (true? show_report?)
+    (report_attack x y (is_deck_there? x y ships))
+    )
   )
 
 ; DEBUG
