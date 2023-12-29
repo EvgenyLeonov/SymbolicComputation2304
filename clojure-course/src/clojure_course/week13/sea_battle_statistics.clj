@@ -43,7 +43,7 @@
 (def max_games_count 100)
 ; here we store statistics: number of turns and positions of ships
 (def turn_numbers (atom []))
-(def ships_positions (atom { }))
+(def ships_positions (atom {}))
 (loop [x 1]
   (when (<= x 10)
     (loop [y 1]
@@ -55,7 +55,7 @@
     (recur (inc x))
     )
   )
-(loop [game_num 1 ]
+(loop [game_num 1]
   (when (<= game_num max_games_count)
     ;(println "Game #" game_num "...")
     (let [ships (engine/set_ships)
@@ -77,24 +77,33 @@
 (println "Games completed:" max_games_count)
 (def average_turns (average @turn_numbers))
 (println "Turns count average =" average_turns)
-;(println @ships_positions)
+
 (println "Matrix:")
 (loop [y 1]
   (when (<= y 10)
     (loop [x 1]
       (when (<= x 10)
-        (print (get @ships_positions (str x "-" y)))
-        (print ",")
+        (let [key (str x "-" y)
+              value (get @ships_positions key)
+              ]
+          (print value)
+          (print ",")
+          )
         (recur (inc x))
         )
-
       )
     (println)
     (recur (inc y))
-
     )
-
   )
+
+(def ships_positions_inverted (into [] (into (sorted-map-by (fn [key1 key2]
+                                                     (compare [(get @ships_positions key2) key2]
+                                                              [(get @ships_positions key1) key1])))
+                                    @ships_positions)))
+(println ships_positions_inverted)
+
+
 
 
 
