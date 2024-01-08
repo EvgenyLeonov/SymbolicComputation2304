@@ -28,6 +28,7 @@
                   current_destination (get tokens 3)
                   current_budget (Integer/parseInt (last tokens))
                   count_people (count @people)
+                  search_function_proposition (search_function current_departure current_destination @people)
                   ;_ (println current_name "|" current_yob "|" current_departure "|" current_destination "|" current_budget)
                   ]
               (if (and (not= current_departure @departure)
@@ -35,9 +36,9 @@
                        )
                 (do
                   (when (and (> count_people 0)
-                             (>= current_budget (search_function current_departure current_destination @people))
+                             (>= current_budget search_function_proposition)
                              )
-                      (swap! income + current_budget)
+                      (swap! income + search_function_proposition)
                       (swap! sold_amount + count_people)
                     )
                   (reset! departure current_departure)

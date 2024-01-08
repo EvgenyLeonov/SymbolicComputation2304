@@ -57,7 +57,7 @@
             scene_instr (scene_rendering/prepare_instructions_for_scene scene_def)
             ]
         ; render the current scene
-        ;(print (str (char 27) "[2J"))
+        (print (str (char 27) "[2J"))
         (scene_rendering/render_scene scene_instr)
         (println "Food to eat:" (count @food_pieces))
         (maze_map_rendering/render_maze_map maze_map @direction_of_sight objects)
