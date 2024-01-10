@@ -40,7 +40,7 @@
 ; TODO you should run it hundreds of times to collect statistics
 (def output (run (engine/set_ships)))
 (println "number of turns =" (:number_of_turns output))
-;(println "ships =" (:ships output))
+(println "ships =" (:ships output))
 
 
 

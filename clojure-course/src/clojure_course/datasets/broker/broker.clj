@@ -38,7 +38,7 @@
                   (when (and (> count_people 0)
                              (>= current_budget search_function_proposition)
                              )
-                      (swap! income + search_function_proposition)
+                      (swap! income + (* search_function_proposition count_people))
                       (swap! sold_amount + count_people)
                     )
                   (reset! departure current_departure)
