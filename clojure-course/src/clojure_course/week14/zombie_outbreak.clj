@@ -4,7 +4,7 @@
 (def place_name "Prague 1")
 
 ; Prague 1 core population 23000
-; every year 6M tourists in Prague; 90% in Prague 1.
+; 6M tourists in Prague every year; 90% in Prague 1.
 (def population (+ 23000 (* 0.9 (/ 6000000 12))))
 ; Prague 1 square: 5.53 sq km
 (def area 5530000)
