@@ -5,7 +5,10 @@
 (def airplane_x 60)
 (def airplane_y_min 30)
 (def airplane_y_max 60)
-(def max_distance_of_transmission 20)
+(def max_distance_of_transmission 2)
+(def airplane_x_min (- airplane_x max_distance_of_transmission))
+(def airplane_x_max (+ airplane_x max_distance_of_transmission))
+(def suitable_points (atom []))
 
 (defn linear_function [point1 point2]
   "calculates k and b in y = k * x + b"
@@ -14,8 +17,14 @@
         y1 (int (last point1))
         x2 (int (first point2))
         y2 (int (last point2))
-        k (/ (- y2 y1) (- x2 x1))
-        b (/ (- (* x2 y1) (* x1 y2)) (- x2 x1))
+        k (cond
+            (= x1 x2) 0
+            :else (/ (- y2 y1) (- x2 x1))
+            )
+        b (cond
+            (= x1 x2) 0
+            :else (/ (- (* x2 y1) (* x1 y2)) (- x2 x1))
+            )
         ]
     ;(println "k=" k "; b=" b)
     (vec [k b])
@@ -60,20 +69,43 @@
         (recur (inc x))
         )
       )
-    (reset! heights (into [] (reverse @heights)))
-    ; radio signal can't pass through an obstacle on its way
-    (let [max_v (apply max @heights)
-          max_ind (.indexOf @heights max_v)
-          _ (println "max_v=" max_v "; max_ind=" max_ind)
-          valid? (= max_ind 0)
-          ]
-      (when (true? valid?)
-        (reset! result (vec [@x_last @y_last]))
+    (when (> (count @heights) 0)
+      (reset! heights (into [] (reverse @heights)))
+      ; radio signal can't pass through an obstacle on its way
+      (let [max_v (apply max @heights)
+            max_ind (.indexOf @heights max_v)
+            _ (println "max_v=" max_v "; max_ind=" max_ind)
+            valid? (= max_ind 0)
+            ]
+        (when (true? valid?)
+          (reset! result (vec [@x_last @y_last]))
+          )
         )
       )
+
     @result
     )
   )
+
+(loop [x airplane_x_min]
+  (when (<= x airplane_x_max)
+    (loop [y airplane_y_min]
+      (when (<= y airplane_y_max)
+        (let [airplane_position (vec [airplane_x y])
+              ; we scan horizontally only
+              point_of_interest (vec [x y])
+              result (is_point_suits? airplane_position point_of_interest)]
+          (when (> (count result) 0)
+            (swap! suitable_points conj result)
+            )
+          )
+        (recur (inc y))
+        )
+      )
+    (recur (inc x))
+    )
+  )
+(println @suitable_points)
 
 ; DEBUG
 ;(def point1 [0 0])
@@ -84,7 +116,9 @@
 
 ; [60 30] [70 85]
 ; [60 30] [66 63]
-(println (is_point_suits? [60 30] [70 85]))
+;(println (is_point_suits? [60 30] [70 85]))
+
+
 
 
 
