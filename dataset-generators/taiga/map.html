@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>Taiga Map</title>
+
+  <style>
+    body {font: 10pt arial;}
+    td {font: 10pt arial}
+  </style>
+
+  <script type="text/javascript" src="vis-graph3d.min.js"></script>
+  <script type="text/javascript" src="data.js"></script>
+
+  <script type="text/javascript">
+    // Called when the Visualization API is loaded.
+    function drawVisualization() {
+      var options = {
+        width:  '600px',
+        height: '600px',
+        style: 'surface',
+        showPerspective: true,
+        showGrid: true,
+        showShadow: false,
+        keepAspectRatio: true,
+        verticalRatio: 0.5
+      };
+
+      // create our graph
+      var container = document.getElementById('mygraph');
+      graph = new vis.Graph3d(container, data, options);
+    }
+  </script>
+
+</head>
+
+<body onload="drawVisualization()">
+
+<div id="mygraph"></div>
+</body>
+</html>
