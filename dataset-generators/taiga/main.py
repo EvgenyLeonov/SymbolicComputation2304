@@ -27,6 +27,7 @@ def generate_landscape():
             if current_value == 0:
                 main_map[x][y] = random.randint(1, 2)
     generate_js()
+    generate_clojure()
 
 
 def calc_height(summit, step):
@@ -68,9 +69,21 @@ def generate_js():
     output = "var data = new vis.DataSet();\n"
     for x in range(0, MAP_WIDTH):
         for y in range(0, MAP_HEIGHT):
-            val = main_map[x][y]
+            val = int(main_map[x][y])
             output = output + f"data.add([{{x:{x},y:{y},z:{val},t:0,style:{val}}}]);\n"
     with open("data.js", "w") as f:
+        f.write(output)
+
+
+def generate_clojure():
+    output = "(ns clojure-course.week14.rescue_mission_data)\n"
+    output = output + "(def data [\n"
+    for x in range(0, MAP_WIDTH):
+        for y in range(0, MAP_HEIGHT):
+            val = int(main_map[x][y])
+            output = output + f"[{x} {y} {val}]\n"
+    output = output + "])\n"
+    with open("rescue_mission_data.clj", "w") as f:
         f.write(output)
 
 
