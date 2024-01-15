@@ -31,10 +31,6 @@
                     current_destination (get tokens 3)
                     current_budget (Integer/parseInt (last tokens))
                     count_people (count @people)
-                    search_function_proposition (cond
-                                                  (> count_people 0) (search_function current_departure current_destination @people)
-                                                  :else 0
-                                                  )
                     ;_ (println current_name "|" current_yob "|" current_departure "|" current_destination "|" current_budget)
                     ]
                 ;(println "departure=" @departure "; current_departure=" current_departure)
@@ -51,7 +47,10 @@
                 (if (and (not= current_departure @departure)
                          (not= current_destination @destination)
                          )
-                  (do
+                  (let [search_function_proposition (cond
+                                                      (> count_people 0) (search_function @departure @destination @people)
+                                                      :else 0
+                                                      )]
                     (when (and (> count_people 0)
                                (>= current_budget search_function_proposition)
                                )
@@ -65,7 +64,6 @@
                     (reset! people [[current_name current_yob]])
                     )
                   (do
-
                     (swap! people conj [current_name current_yob])
                     )
                   )
