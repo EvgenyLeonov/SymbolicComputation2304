@@ -17,6 +17,7 @@
         y1 (int (last point1))
         x2 (int (first point2))
         y2 (int (last point2))
+        _ (println "x1=" x1 "; x2=" x2 "; y1=" y1 "; y2=" y2)
         k (cond
             (= x1 x2) 0
             :else (/ (- y2 y1) (- x2 x1))
@@ -46,6 +47,14 @@
         ya (int (last point_airplane))
         xi (int (first point_of_interest))
         yi (int (last point_of_interest))
+        x_from (cond
+                 (> xi xa) xa
+                 :else xi
+                 )
+        x_to (cond
+                 (> xi xa) xi
+                 :else xa
+                 )
         lin_f (linear_function [xa ya] [xi yi])
         k (first lin_f)
         b (second lin_f)
@@ -54,16 +63,18 @@
         y_last (atom 0)
         result (atom [])
         ]
-    (loop [x (inc xa)]
-      (when (<= x xi)
+    (println "x_from=" x_from "; x_to=" x_to)
+    (loop [x x_from]
+      (when (<= x x_to)
         (let [y (int (Math/ceil (+ (* k x) b)))
               z (get_height x y)
               _ (println "x=" x "; y=" y "; z=" z "; k=" k "; b=" b)
               ]
-          (when (some? z)
+          (when (> z 0)
             (swap! heights conj z)
             (reset! x_last x)
             (reset! y_last y)
+            (println "xx x_last=" @x_last "; y_last=" @y_last)
             )
           )
         (recur (inc x))
@@ -74,10 +85,11 @@
       ; radio signal can't pass through an obstacle on its way
       (let [max_v (apply max @heights)
             max_ind (.indexOf @heights max_v)
-            _ (println "max_v=" max_v "; max_ind=" max_ind)
+            ;_ (println "max_v=" max_v "; max_ind=" max_ind)
             valid? (= max_ind 0)
             ]
         (when (true? valid?)
+          (println "x_last=" @x_last "; y_last=" @y_last)
           (reset! result (vec [@x_last @y_last]))
           )
         )
@@ -94,6 +106,7 @@
         (let [airplane_position (vec [airplane_x y])
               ; we scan horizontally only
               point_of_interest (vec [x y])
+              ;_ (println "point_of_interest=" point_of_interest)
               result (is_point_suits? airplane_position point_of_interest)]
           (when (> (count result) 0)
             (swap! suitable_points conj result)
@@ -105,7 +118,11 @@
     (recur (inc x))
     )
   )
-(println @suitable_points)
+
+(doseq [p @suitable_points]
+  (println (first p) "," (last p))
+  )
+;(println @suitable_points)
 
 ; DEBUG
 ;(def point1 [0 0])
