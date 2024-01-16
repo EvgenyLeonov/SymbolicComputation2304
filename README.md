@@ -80,7 +80,49 @@ Lecture 1 06-Nov-2023, Lecture 2 08-Nov-2023
 
 Lecture 1 13-Nov-2023, Lecture 2 15-Nov-2023
 
+* Binary Tree Inversion
+* Osmos game
 
+### Week 9 ### 
 
+Lecture 1 20-Nov-2023, Lecture 2 22-Nov-2023
+
+* Bank loans analysis
+* Superheroes (forward and backward chaining)
+* Path Builder (for graphs)
+
+### Week 10 ### 
+
+Lecture 1 27-Nov-2023, Lecture 2 29-Nov-2023
+
+* Sorting (various options)
+
+### Week 11 ### 
+
+Lecture 1 04-Dec-2023, Lecture 2 06-Dec-2023
+
+* Agents (multi threading)
+* Conversion Roman to Arabic, Arabic to Roman
+* Warcraft game
+
+### Week 12 ### 
+
+Lecture 1 11-Dec-2023, Lecture 2 13-Dec-2023
+
+* Transdusers
+* Pacman First Person
+
+### Week 13 ### 
+
+Lecture 1 09-Jan-2024, Lecture 2 11-Jan-2024
+
+* Sea Battle
+
+### Week 14 ### 
+
+Lecture 1 15-Jan-2024, Lecture 2 17-Jan-2024
+
+* Zombie outbreak in Prague
+* Rescue mission
 
 
